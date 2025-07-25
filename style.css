@@ -1,0 +1,2440 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+
+body {
+    font-family: 'Playfair Display', serif;
+    background-color: black;
+    color: #ffd700;
+    line-height: 1.6;
+}
+/*-------------------------------------------------------*/
+/*-------------------------------------------------------*/
+/*-------------------------------------------------------*/
+
+
+
+
+/*Scroll progress bar */
+/*at the top of website*/
+
+#scroll-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 0%;
+    background: gold; 
+    z-index: 9999;
+    transition: width 0.25s ease-out;
+}
+
+/*-------------------------------------------------------*/
+/*-------------------------------------------------------*/
+/*-------------------------------------------------------*/
+
+
+/*navbar*/
+/*fixed position with high z-index*/
+
+.navbar {
+    position: fixed;
+    width: 100vw;
+    height: 6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 5rem;
+    background-color: #000000;
+    color: #fff;
+    z-index: 10;
+}
+
+@media (max-width: 1000px) {
+    .navbar {
+        /* to educe horizontal padding at hitting 1000px*/
+        padding: 2rem 2rem; 
+    }
+}
+
+
+nav a.active {
+    color: gold; 
+    font-weight: bold;
+}
+
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.8rem;
+    font-weight: 700;
+    gap: 0.7rem; 
+    transition: color 0.3s ease;
+}
+
+.logo a:hover {
+    color: gold;
+}
+
+.logo img {
+    height: 3rem;     
+    width: auto;
+    object-fit: contain;
+}
+
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+    color: gold;
+}
+
+
+/*On hitting 900px nav bar will have hamburger menu*/
+.hamburger {
+
+    display: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: white;
+    position: absolute;
+    right: 2rem;
+    top: 1rem;
+    z-index: 15;
+    transition: color 0.3s ease;
+  
+}
+
+.hamburger.active {
+    color: gold;
+}
+
+@media (max-width: 900px) {
+    
+    .hamburger {
+        display: block;
+    }
+
+
+    .navbar ul {
+        display: none;
+        flex-direction: column;
+        background: black;
+        position: absolute;
+        top: 6rem;
+        right: 2rem;
+        width: 16rem;
+        padding: 1rem;
+        border: 1px solid gold;
+        border-radius: 8px;
+    }
+
+    .navbar ul.active {
+        display: flex;
+    }
+}
+
+/*For mobile phone*/
+@media (max-width: 500px) {
+    .navbar{
+        height: 5rem;
+        padding-left: 1rem;
+    }
+
+    .hamburger {
+        display: block;
+        font-size: 1.5rem;
+        top: 1.25rem;
+    }
+
+
+    .navbar ul {
+        display: none;
+        flex-direction: column;
+        background: black;
+        position: absolute;
+        top: 5rem;
+        right: 2rem;
+        width: 16rem;
+        height: 28rem;
+        padding: 1rem;
+        border: 1px solid gold;
+        border-radius: 8px;
+    }
+
+    .navbar ul.active {
+        display: flex;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+    }
+
+    .logo a {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: #fff;
+        font-size: 1.5rem;
+        font-weight: 700;
+        gap: 0.7rem; 
+        transition: color 0.3s ease;
+    }
+
+    .logo a:hover {
+        color: gold;
+    }
+
+    .logo img {
+        height: 2.5rem;     
+        width: auto;
+        object-fit: contain;
+    }
+
+    
+    .navbar ul li {
+        font-size: 1.2rem;           
+        padding: 0.25rem 0;            
+        text-align: center;         
+        width: 100%;                 
+    }
+
+    .navbar ul li a {
+        display: block;              /* Make entire area clickable */
+        padding: 0.25rem 1rem;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
+
+    .navbar ul li a:hover {
+        color: gold;
+    }
+    .navbar ul li a.active {
+        color: gold;
+        font-weight: 700;
+    }
+
+}
+
+/*-------------------------------------------------------*/
+/*-------------------------------------------------------*/
+/*-------------------------------------------------------*/
+
+
+/* Hero Section */
+
+
+.hero {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    background-image: url('images/background.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: brightness(1); 
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75); /*dark overlay */
+    z-index: 0;
+}
+
+.hero-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.hero-text h1 {
+    font-size: 17vh;
+    line-height: 1;
+}
+
+/* Filled text behind image */
+.hero-text.filled {
+    color: #ffd700;
+    z-index: 1;
+}
+
+/* Outline text on top */
+.hero-text.outline {
+    color: transparent;
+    -webkit-text-stroke: 2px #ffd700;
+    z-index: 3;
+    }
+
+/* Magnus Image */
+.magnus-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100vh;
+    max-width: 100vw;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.hero-text span.filled {
+    color: #ffd700;
+    -webkit-text-stroke: 0;
+}
+
+.hero-text span.outline {
+    color: transparent;
+    -webkit-text-stroke: 2px #ffd9008e;
+}
+
+/*media queries for hero section*/
+@media (max-width: 950px) {
+    .hero-text h1 {
+        font-size: 14vh;
+    }
+    .magnus-img {
+        height: 90vh;
+    }
+    .hero{
+        height: 90vh;
+    }
+}
+
+@media (max-width: 880px) {
+    .hero-text h1 {
+        font-size: 13vh;
+    }
+    .magnus-img {
+        height: 75vh;
+    }
+    .hero{
+        height: 75vh;
+    }
+}
+
+@media (max-width: 730px) {
+    .hero-text h1 {
+        font-size: 12vh;
+    }
+    .magnus-img {
+        height: 60vh;
+    }
+    .hero{
+        height: 60vh;
+    }
+}
+
+/*media query for phones*/
+@media (max-width: 500px) {
+    .hero-text{
+        top: 50%;
+    }
+    .hero-text h1 {
+        font-size: 8vh;
+    }
+    .magnus-img {
+        width: auto;
+        height: 50vh;
+        max-width: 90vw;
+        max-height: 70vh;
+        object-fit: cover; 
+        display: block;
+        margin: 0 auto;
+    }
+
+    .hero {
+        height: 50vh;
+        padding: 2rem 0;
+    }
+}
+/*-------------------------------------------------------*/
+/*-------------------------------------------------------*/
+/*-------------------------------------------------------*/
+
+
+/*about section*/
+
+.about-section {
+    
+    color: rgb(232, 198, 112);
+    padding: 0;
+    margin: 0;
+
+}
+
+.about-section:hover{
+    background-color: #111111f3;
+}
+
+.about-wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+}
+
+.about-image {
+    width: 55%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    margin-right: 5rem;
+}
+
+.about-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: left;
+    border-radius: 0 0 4rem 0;
+    filter: brightness(0.5);
+}
+
+.about-container {
+    width: 65%;
+    padding: 5rem 3rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.about-container h2 {
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.divider {
+    width: 80px;
+    height: 4px;
+    background-color: rgb(232, 198, 112);
+    margin: 0 0 2rem 0;
+    border-radius: 2px;
+}
+
+.about-container p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    color: rgb(232, 198, 112);
+}
+
+
+/*About buttons of add member and see team*/
+
+.about-buttons {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+    flex-direction: row;
+    align-items: center; /*to center content horizontally */
+    text-align: center;
+}
+
+.about-buttons .gold-button {
+    height: 3rem;
+    width: auto;
+    background-color: gold;
+    color: rgb(0, 0, 0);
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-family: 'Playfair Display', serif;
+    text-decoration: none;
+    text-align: center;
+}
+
+.about-buttons .gold-button:hover {
+    background-color: #ffffff;
+    color: gold;
+}
+
+
+/*modal css */
+/*add member modal css*/
+
+.modal-overlay .gold-button {
+    background-color: gold;
+    color: rgb(255, 255, 255);
+    padding: 0.8rem 1.5rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-family: 'Playfair Display', serif;
+    text-decoration: none;
+    text-align: center;
+}
+
+.modal-overlay .gold-button:hover {
+    background-color: #ffffff;
+    color: gold;
+}
+
+/*for modal of add member*/
+/* Form inside modal */
+.add-member-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.add-member-form input,
+.add-member-form select {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ffd700;
+    background: #111;
+    color: #fff;
+}
+
+.add-member-form input::placeholder {
+    color: #999;
+}
+
+.add-member-form button {
+    margin-top: 1rem;
+}
+
+/*Media query for about section*/
+
+@media (max-width: 1000px) {
+
+
+    .about-wrapper {
+        position: relative;
+        flex-direction: column;
+        
+        align-items: center;
+        padding: 2rem;
+        gap: 2rem;
+    }
+
+    .about-image {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0.15; /* light background image */
+        z-index: 0;
+        margin-right: 0;
+    }
+
+    .about-image img {
+        object-fit: cover;
+        object-position: center;
+        height: 100%;
+        width: 100%;
+        border-radius: 0;
+        filter: brightness(0.4);
+    }
+
+    .about-container {
+        position: relative;
+        padding-top: 2rem;
+        width: 100%;
+        max-width: 800px;
+        z-index: 1;
+        padding: 4rem 2rem;
+        text-align: center;
+    }
+
+    .about-container h2 {
+        font-size: 2.4rem;
+    }
+
+    .about-container p {
+        font-size: 1.1rem;
+    }
+
+    .divider {
+        margin: 0 auto 2rem auto;
+    }
+}
+
+@media (max-width: 500px) {
+    
+    .about-container {
+        position: relative;
+        
+        width: 100%;
+        max-width: 800px;
+        z-index: 1;
+        padding: 2rem 2rem 0rem 2rem;
+        text-align: center;
+    }
+
+}
+
+
+/*-------------------------------------------------------*/
+/*-------------------------------------------------------*/
+/*-------------------------------------------------------*/
+
+
+/*Upcoming Events CSS*/
+.carousel-section {
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.carousel-heading {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.carousel-container {
+    position: relative;
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto;
+    overflow: visible; /* to allow buttons outside */
+    padding: 0 4rem;  
+}
+
+/* Carousel Track */
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+}
+
+/* Carousel Card */
+
+.carousel-card {
+    position: relative;
+    flex: 0 0 100%;
+    max-height: 20rem;
+    overflow-y: auto;
+    padding: 2rem;
+    background-color: #1c1c1c;
+    border: 2px solid rgb(232,198,112);
+    border-radius: 1rem;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(232,198,112, 0.2);
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: 2px solid rgb(232, 198, 112);
+    color: rgb(232, 198, 112);
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    z-index: 5; /* higher than scrollbar */
+    transition: background 0.3s;
+}
+
+.carousel-btn:hover {
+    background-color: rgb(232, 198, 112);
+    color: #000;
+}
+
+.prev {
+    left: -40px; 
+    z-index: 1;
+}
+
+.next {
+    right: -40px;
+    z-index: 1;
+}
+
+/* Card Content */
+.carousel-card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: wheat;
+}
+
+.carousel-card p {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: bisque;
+}
+
+.carousel-card span {
+    font-size: 1rem;
+    font-style: italic;
+    color: silver;
+}
+
+/*read more button of events*/
+.read-more-btn {
+    margin-top: 1rem;
+    padding: 0.6rem 1.2rem;
+    background: rgb(232, 198, 112);
+    color: #000;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 0.5rem; 
+    position: absolute;
+    bottom: 1rem;
+    left: 50%; 
+    transform: translateX(-50%); 
+    z-index: 4;
+    transition: background 0.3s;
+}
+
+.read-more-btn:hover {
+    background: gold;
+}
+
+
+.carousel-viewport {
+    overflow: hidden;         
+    width: 100%;              
+}
+
+/* Modal Overlay */
+.event-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(17, 17, 17, 0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Modal Content */
+.event-modal-content {
+    background: #1c1c1c;
+    color: wheat;
+    padding: 2rem;
+    max-width: 600px;
+    width: 90%;
+    border: 2px solid gold;
+    border-radius: 10px;
+    position: relative;
+    font-family: 'Playfair Display', serif;
+}
+
+/* Close Button */
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 1.8rem;
+    color: rgb(232,198,112);
+    cursor: pointer;
+}
+
+/* Modal Gold Button */
+.event-modal-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    justify-content: center;
+}
+
+
+
+.event-modal-content .gold-button {
+    margin-top: 1.5rem;
+    background-color: gold;
+    color: black;
+    font-size: 1rem;
+    font-weight: 750;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background 0.3s ;
+}
+
+.event-modal-content .gold-button:hover {
+    background-color: white;
+    color: gold;
+}
+
+.event-modal-overlay h3{
+    color: white;
+}
+
+#modalEventDescription {
+    white-space: pre-line;
+}
+
+/*media queries*/
+@media (max-width: 1000px) {
+    .carousel-container {
+        padding: 0 2rem; /* reduce side padding */
+    }
+
+    .carousel-card {
+        padding: 1.5rem;
+        font-size: 0.95rem;
+        max-height: 24rem;
+    }
+
+    .carousel-card h3 {
+        font-size: 1.5rem;
+    }
+
+    .carousel-card p {
+        font-size: 1rem;
+    }
+
+    .carousel-card span {
+        font-size: 0.9rem;
+    }
+
+    .read-more-btn {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+        bottom: 0.8rem;
+    }
+
+    .carousel-btn {
+        font-size: 1.5rem;
+        padding: 0.3rem 0.6rem;
+    }
+
+    .prev {
+        left: -20px;
+    }
+
+    .next {
+        right: -20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .carousel-section{
+        padding-top: 1rem;
+    }
+    .carousel-container {
+        padding: 0 1rem;
+    }
+
+    .carousel-card {
+        max-height: 26rem;
+        padding: 1rem;
+    }
+
+    .carousel-card h3 {
+        font-size: 1.3rem;
+    }
+
+    .carousel-card p {
+        font-size: 0.95rem;
+    }
+
+    .read-more-btn {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.9rem;
+    }
+
+    .carousel-btn {
+        font-size: 1.4rem;
+        padding: 0.2rem 0.4rem;
+    }
+
+  
+}
+
+
+/*---------------------------------------------------------*/
+/*---------------------------------------------------------*/
+/*---------------------------------------------------------*/
+
+
+
+
+/* RESULTS SECTION */
+.results-section {
+    padding: 4rem 2rem;
+    background-color: #000000;
+    color: rgb(232, 198, 112);
+    text-align: center;
+}
+
+.results-heading {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+/* Container and Scroll Track */
+.results-carousel-container {
+    position: relative;
+    overflow: hidden;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 4rem;
+}
+
+.results-track {
+    display: flex;
+    gap: 2rem;
+    scroll-behavior: smooth; 
+    overflow-x: auto;        
+    overflow-y: hidden;
+    scrollbar-width: none;  
+}
+
+.results-track::-webkit-scrollbar {
+    display: none;           
+}
+
+/* Result Card */
+.result-card {
+    flex: 0 0 calc(33.33% - 2rem); /* 3 cards per view */
+    background-color: #1a1a1a;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(232, 198, 112, 0.3);
+    transition: transform 0.3s;
+    color: rgb(232,198,112);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.result-card:hover {
+    transform: scale(1.03);
+}
+
+.result-card img {
+    width: 100%;
+    height: 11.25rem;
+    border-radius: 1rem;
+    object-fit: cover;
+    background-color: #111;
+
+}
+
+
+/* -------------------
+--------------------- */
+
+/*result card styling*/
+.result-details {
+    padding: 1rem;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.result-details h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.result-date, .participants {
+    font-size: 0.9rem;
+    color: #d1b66f;
+    margin-bottom: 0.3rem;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.3rem 0.7rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+}
+
+.badge.winner {
+    background-color: gold;
+    color: black;
+}
+
+.badge.top5 {
+    background-color: #e6c300b9;
+    color: black;
+}
+
+.view-certificate {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: rgb(232, 198, 112);
+    border: 1px solid rgb(232, 198, 112);
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.5rem;
+    transition: background 0.3s, color 0.3s;
+}
+
+.view-certificate:hover {
+    background-color: gold;
+    color: #000;
+}
+
+/* Carousel Buttons */
+.results-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: 2px solid rgb(232, 198, 112);
+    color: rgb(232, 198, 112);
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.3s;
+    padding: 0.5rem 1rem;
+}
+
+.results-btn:hover {
+    background-color: rgb(232, 198, 112);
+    color: #000;
+}
+
+.results-btn.prev {
+    left: 0px;
+    z-index: 2;
+}
+
+.results-btn.next {
+    right: 0px;
+    z-index: 2;
+}
+
+/*Trigger Buttons Style*/
+.open-winner-modal-btn,
+.open-detail-modal-btn {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    padding: 0.5rem 1.2rem;
+    border: 1px solid rgb(232, 198, 112);
+    border-radius: 2rem;
+    background-color: transparent;
+    color: rgb(232, 198, 112);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.open-winner-modal-btn:hover,
+.open-detail-modal-btn:hover {
+    background-color: gold;
+    color: #000;
+}
+
+/*Modal Overlay & Content*/
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 10, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-overlay.hidden {
+    display: none;
+}
+
+.modal-content {
+    background-color: #1c1c1c;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 20px rgba(232, 198, 112, 0.3);
+    width: 90%;
+    max-width: 650px;
+    color: rgb(232, 198, 112);
+    position: relative;
+    max-height: 80vh;
+    overflow-y: auto;
+    animation: fadeInScale 0.4s ease;
+}
+
+@keyframes fadeInScale {
+    from {
+            transform: scale(0.85);
+            opacity: 0;
+    }
+    to {
+            transform: scale(1);
+            opacity: 1;
+        }
+}
+
+.close-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: rgb(232, 198, 112);
+    transition: color 0.2s ease;
+}
+
+.close-modal:hover {
+    color: gold;
+}
+
+.modal-content h3 {
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.modal-content p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+}
+
+.modal-section {
+    margin-bottom: 1.5rem;
+}
+
+.modal-section-title {
+    color: gold;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.modal-podium {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.podium-place {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    width: 6rem;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: #333;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.podium-place span {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    word-break: break-word;
+}
+
+.podium-1 { background-color: gold; color: black; height: 100px; }
+.podium-2 { background-color: silver; color: black; height: 80px; }
+.podium-3 { background-color: #cd7f32; color: white; height: 60px; }
+
+/*it applies to the custom detail buttons */
+#custom-detail-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+    }
+
+#custom-detail-buttons a {
+    text-decoration: none;
+    background-color: rgba(232, 198, 112, 0.1);
+    color: rgb(232, 198, 112);
+    border: 1px solid rgb(232, 198, 112);
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+#custom-detail-buttons a:hover {
+    background-color: gold;
+    color: black;
+    }
+
+
+/*for mobile device*/
+@media (max-width: 500px) {
+    .results-carousel-container {
+        padding: 0 1rem;
+    }
+
+    .results-track {
+        gap: 1rem; /* Reduce spacing for mobile */
+    }
+
+    .result-card {
+        flex: 0 0 100%; /* ✅ One card per view */
+        padding: 1rem;
+    }
+
+    .results-btn {
+        font-size: 1.4rem;
+        padding: 0.3rem 0.6rem;
+    }
+
+    .open-winner-modal-btn,
+    .open-detail-modal-btn {
+        font-size: 0.85rem;
+        padding: 0.4rem 1rem;
+    }
+}
+
+    /* 1-card layout (mid-phone to small tablet) */
+@media (min-width: 500px) and (max-width: 738px) {
+    .result-card {
+        flex: 0 0 60%; /* narrower card */
+        margin: 0 auto; /* center it */
+    }
+}
+
+    /* 2-card layout (tablet view) */
+@media (min-width:738px) and (max-width: 1000px) {
+    .result-card {
+        flex: 0 0 calc(50% - 2rem); /* 2 cards per row */
+    }
+}
+
+
+
+
+
+/*For the timeline*/
+
+.timeline-section {
+    background: #000000;
+    padding: 3.75rem 1.25rem;
+}
+
+.timeline-heading {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    font-family: 'Playfair Display', serif;
+}
+
+.timeline-container {
+    position: relative;
+    max-width: 1000px;
+    margin: auto;
+    padding: 0 20px;
+}
+
+.timeline-container::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    background: rgb(232,198,112);
+    top: 0;
+    bottom: 5rem;
+    left: 50%;
+    margin-left: -2px;
+}
+
+.timeline-item {
+    padding: 20px 30px;
+    position: relative;
+    width: 50%;
+}
+
+.timeline-item.left {
+    left: 0;
+}
+
+.timeline-item.right {
+    left: 50%;
+}
+
+.timeline-item .content {
+    padding: 20px;
+    background: white;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(232,198,112,0.1);
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background: #fff;
+    border: 4px solid #333;
+    top: 20px;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.timeline-item.left::before {
+    right: -12px;
+}
+
+.timeline-item.right::before {
+    left: -12px;
+}
+
+.timeline-container .content h3{
+    color: #000;
+    text-align: center;
+}
+
+.timeline-container .content p{
+    text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+    .timeline-container::after {
+        left: 20px;
+    }
+
+    .timeline-item {
+        width: 100%;
+        padding-left: 50px;
+        padding-right: 25px;
+    }
+
+    .timeline-item.right {
+        left: 0%;
+    }
+
+    .timeline-item.left::before,
+    .timeline-item.right::before {
+        left: 0;
+    }
+}
+
+.timeline-item .content {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.timeline-item .content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgb(232,198,112);
+}
+
+.expand-button-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+#expandTimelineBtn {
+    padding: 10px 25px;
+    background-color: rgb(232,198,112,0.9);
+    color: white;
+    border: none;
+    font-size: 1rem;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#expandTimelineBtn:hover {
+    background-color: rgb(232,198,112);
+    transform: translateY(-0.25rem);
+    box-shadow: 0 0.25rem 0.25rem rgb(232,198,112);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hidden class for expandable content */
+.hidden {
+    display: none;
+}
+
+#collapseTimelineBtn {
+    padding: 10px 25px;
+    background-color: rgba(232,198,112,0.9);
+    color: white;
+    border: none;
+    font-size: 1rem;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 10px;
+}
+
+#collapseTimelineBtn:hover {
+    background-color: rgb(232,198,112);
+    transform: translateY(-0.25rem);
+    box-shadow: 0 0.25rem 0.25rem rgb(232,198,112);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media screen and (max-width: 768px) {
+    .timeline-container::after {
+        left: 50%;
+        margin-left: -2px; /* half of 4px line width */
+    }
+
+    .timeline-item {
+        width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+        margin-bottom: 40px;
+        left: 0 !important; /*to Ensure both left and right items go center */
+        text-align: center;
+    }
+
+    .timeline-item.left::before,
+    .timeline-item.right::before {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .timeline-item .content {
+        margin: 0 auto;
+        width: 90%;
+    }
+
+    .timeline-container::after {
+        z-index: 0;
+    }
+
+    .timeline-item::before {
+        top: -12px;
+        z-index: 2;
+    }
+
+    .timeline-item,
+    .timeline-item .content {
+        z-index: 1;
+    }
+
+}
+
+/* Base transition */
+.timeline-item .content {
+    transition: transform 0.5s ease, background-color 0.5s, color 0.5s, box-shadow 0.5s;
+}
+
+/* When card comes into view */
+.timeline-item.active .content {
+    transform: translateY(-10px);
+    background-color: gold; /* golden */
+    color: black;
+    box-shadow: 0 1rem 1.5rem rgba(232,198,112, 0.4);
+}
+
+/*headings and text colored for readability */
+.timeline-item.active .content h3{
+    color: black
+}
+
+.timeline-item.active .content p{
+    color: white;
+}
+
+
+/*---------------------------------------------------------*/
+/*---------------------------------------------------------*/
+/*---------------------------------------------------------*/
+
+
+/*Team Section*/
+
+.team-section {
+    padding: 60px 20px;
+    background: #000;
+    text-align: center;
+    position: relative;
+    color: #fff;
+}
+
+.team-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: #FFD700; 
+}
+
+.team-subtext {
+    margin-bottom: 30px;
+    color: #ccc;
+}
+
+/* Carousel Controls */
+.team-carousel-controls {
+    position: absolute;
+    top: 50%;
+    left: 15%;
+    right: 15%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    z-index: 2;
+    pointer-events: none;  /*to let clicks pass through background */
+}
+
+.team-carousel-controls button {
+    font-size: 2rem;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 1rem;
+    pointer-events: auto; /*to restore clickability */
+    transition: background 0.3s;
+}
+
+.team-carousel-controls button:hover {
+    background: rgba(255, 215, 0, 0.8); 
+}
+
+
+/* Carousel Slides Wrapper */
+.team-carousel-wrapper {
+    position: relative;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.team-slide {
+    display: none;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.team-slide.active-slide {
+    display: block;
+}
+
+/* Slide Title */
+.slide-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #FFD700;
+    margin: 20px 0 10px;
+}
+
+/* Row Layout */
+
+.team-slide-row {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 2rem; 
+    flex-wrap: wrap;
+    margin-top: 2.5rem; 
+}
+
+
+/* Card Styles */
+.team-card {
+    width: 250px;
+    height: 24rem;
+    perspective: 1000px;
+    cursor: pointer;
+    flex: 0 0 auto;
+    margin: 1rem;
+    transition: transform 0.3s ease-in-out;
+}
+
+.team-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-front,
+.card-back {
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-card:hover .card-front,
+.team-card:hover .card-back {
+    background: #111;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+}
+
+/* Hover Effect for Card */
+.team-card:hover .card-front,
+.team-card:hover .card-back {
+    background-color: #ffffff; /* Gold */
+    color: #FFD700; /* Default fallback (black text) */
+}
+
+/* Override Gold Text on Hover */
+
+.team-card:hover .card-front .more,
+.team-card:hover .card-back .more,
+.team-card:hover .card-front .quote {
+    color: #FFD700 !important;
+}
+
+.team-card:hover .card-front h3,
+.team-card:hover .card-back h3 {
+    color: #000;
+}
+
+/* Optional: Invert Social Link BG */
+.team-card:hover .socials a {
+    color: #000;
+    font-weight: 600;
+}
+
+.card-front h3,
+.card-back h3,
+.card-front .quote,
+.card-front .more,
+.card-back .more,
+.socials a {
+    color: #FFD700; /* Default = gold */
+    transition: color 0.3s ease;
+}
+
+
+
+
+
+/* First Slide Specific Layout */
+.head-team-layout {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+
+
+/* Big card in center of first slide */
+.big-card {
+    transform: scale(1.15);
+    z-index: 1;
+}
+
+/* Card Inner Flip */
+.card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.team-card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+/* Card Faces */
+.card-front,
+.card-back {
+    position: absolute;
+    backface-visibility: hidden;
+    background: #111;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.2);
+    border: 1px solid #FFD700;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    color: #fff;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+}
+
+/* Card Content */
+.card-front img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    border: 2px solid #FFD700;
+    padding: 5px;
+    background: #000;
+    box-sizing: border-box;
+}
+
+
+.card-front h3,
+.card-back h3 {
+    margin: 10px 0 5px;
+    font-size: 1.2rem;
+    color: #FFD700;
+}
+
+.card-front p,
+.card-back p {
+    font-size: 0.95rem;
+    margin: 4px 0;
+}
+
+.card-front .quote {
+    font-style: italic;
+    color: #ccc;
+}
+
+.card-front .more,
+.card-back .more {
+    font-size: 0.85rem;
+    margin-top: 10px;
+    color: #aaa;
+}
+
+/* Social Links */
+.socials {
+    margin-top: 10px;
+}
+
+.socials a {
+    display: inline-block;
+    margin: 5px 8px 0;
+    color: #FFD700;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.team-slide {
+    display: none;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.team-slide.active-slide {
+    display: block;
+}
+
+.team-indicators {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.team-indicators .dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin: 1rem 0.5rem;
+    background-color: #ffffff;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.team-indicators .dot.active {
+    background-color: #FFD700; 
+}
+
+/*---------------------------------------------------------*/
+/*---------------------------------------------------------*/
+/*---------------------------------------------------------*/
+
+/*Default: Mobile hidden*/
+.team-mobile-section {
+  display: none;
+}
+
+/*Mobile Layout Activation */ 
+@media (max-width: 950px) {
+    .desktop-team-section {
+        display: none; /* Hide desktop layout */
+    }
+    .big-card {
+        transform: none !important;
+        scale: 1 !important;
+        z-index: auto;
+    }
+
+    .team-mobile-section {
+        display: block;
+        padding: 1rem;
+        background: black;
+        color: white;
+        position: relative;
+        text-align: center;
+    }
+
+    .team-heading {
+        font-family: 'Playfair Display', serif;
+        font-size: 2.5rem;
+        color: #FFD700; 
+    }
+
+    .team-subtext {
+        margin-bottom: 30px;
+        color: #ccc;
+    }
+
+    .team-mobile-slide {
+        margin-bottom: 2rem;
+    }
+
+    .team-mobile-slide h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        text-align: left;
+        color: #ffd700;
+        padding-left: 0.5rem;
+    }
+
+    .team-mobile-row {
+        display: flex;
+        gap: 1rem;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding: 0 0.5rem;
+    }
+
+    .team-mobile-row::-webkit-scrollbar {
+        display: none;
+    }
+
+    .team-card {
+        flex: 0 0 90%;
+        max-width: 90%;
+        height: 400px;
+        scroll-snap-align: center;
+        perspective: 1000px;
+        background: transparent;
+    }
+
+    .card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+    }
+
+    .team-card.flipped .card-inner {
+        transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card-front {
+        background: #111;
+        color: white;
+    }
+
+    .card-back {
+        background: #ffd700;
+        color: black;
+        transform: rotateY(180deg);
+    }
+
+    .card-front img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-bottom: 1rem;
+        border: 3px solid white;
+    }
+
+    .team-card h3 {
+        margin-bottom: 0.5rem;
+    }
+
+    .team-card .quote {
+        font-style: italic;
+        margin-bottom: 1rem;
+    }
+
+    .more {
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+    }
+
+    .socials {
+        margin-top: 1rem;
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .socials a {
+        color: #ffd700;
+        text-decoration: underline;
+        font-size: 0.9rem;
+    }
+
+    .mobile-carousel-controls {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 0.5rem;
+        padding: 0 1rem;
+    }
+
+    .mobile-carousel-controls button {
+        font-size: 1.3rem;
+        background: rgba(255, 215, 0, 0.15); /* soft gold tint */
+        color: #FFD700;
+        border: 1px solid #FFD700;
+        padding: 8px 14px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(6px);
+    }
+
+    .mobile-carousel-controls button:hover {
+        background: #FFD700;
+        color: #000;
+    }
+
+
+    .mobile-team-wrapper {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .team-mobile-row {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 1.5rem;
+        padding: 1rem 0.5rem;
+        scrollbar-width: none;
+    }
+
+    .team-mobile-row::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mobile-carousel-controls {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 10px;
+        transform: translateY(-50%);
+        z-index: 3;
+    }
+
+    .mobile-carousel-controls button {
+        font-size: 1.5rem;
+        background-color: rgba(0, 0, 0, 0.6);
+        color: #FFD700;
+        border: 1px solid #FFD700;
+        padding: 8px 14px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+}
+
+
+/*---------------------------------------------------------*/
+/*---------------------------------------------------------*/
+/*---------------------------------------------------------*/
+
+
+
+
+/* Contact Us Section */
+/* Contact Us Section*/
+.contact-section {
+    background: #000000; 
+    padding: 80px 20px;
+    text-align: center;
+    color: #fff; 
+}
+
+.contact-container {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.contact-container h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #ffd700; 
+}
+
+.contact-container p {
+    font-size: 16px;
+    margin-bottom: 30px;
+    color: #cccccc; 
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-row input {
+    flex: 1;
+}
+
+@media (min-width: 600px) {
+    .form-row {
+        flex-direction: row;
+    }
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 12px 16px;
+    font-size: 16px;
+    background-color: #1a1a1a; /* Dark input background */
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: #888;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #ffd700;
+    box-shadow: 0 0 5px #ffd70033;
+    outline: none;
+}
+
+.contact-form button {
+    background: #ffd700; /* Gold button */
+    color: #000;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    width: fit-content;
+    margin: 0 auto;
+    font-weight: bold;
+}
+
+.contact-form button:hover {
+    background: #e6c200;
+    transform: translateY(-2px);
+}
+
+/* Icons container */
+.contact-socials {
+    margin-top: 30px;
+}
+
+/* Icons */
+.social-icon {
+    margin: 0 10px;
+    font-size: 2rem;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.3s;
+    display: inline-block;
+}
+
+/* Instagram icon */
+.social-icon.instagram {
+    color: #E4405F;
+}
+
+.social-icon.instagram:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 0.25rem #ff0b3888;
+}
+
+/*Gmail icon */
+.social-icon.gmail {
+    color: #b5006a;
+}
+
+.social-icon.gmail:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 0.25rem #b5006a;
+}
+
+
+/*---------------------------------------------------------*/
+/*---------------------------------------------------------*/
+/*---------------------------------------------------------*/
+
+
+/*Back to top button*/
+#back-to-top {
+    font-family: 'Playfair Display', serif;
+    position: fixed;
+    bottom: 30px;
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Offset 50% to truly center */
+    padding: 10px 15px;
+    font-size: 20px;
+    background-color: gold;
+    color: black;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    display: none;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+
+body[data-theme="dark"] #back-to-top {
+    background-color: white;
+    color: black;
+}
+
+
+/*---------------------------------------------------------*/
+/*---------------------------------------------------------*/
+/*---------------------------------------------------------*/
+
+
+
+/* ALL members list modal */
+.team-members-footer {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.team-members-footer h3 {
+    font-size: 1.5rem;
+    color: #FFD700; /* Gold */
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+}
+
+#openMembersModal {
+    background-color: rgba(255, 215, 0, 0.1); /* Subtle gold tint */
+    color: #FFD700;
+    border: 1px solid #FFD700;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: 'Playfair Display', serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+}
+
+#openMembersModal:hover {
+    background-color: #FFD700;
+    color: #000;
+}
+
+/* Modal Container */
+.members-list-modal {
+    display: none;
+    position: fixed;
+    z-index: 1050;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Modal Box */
+.members-list-modal-content {
+    background-color: #111;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #FFD700;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 10px;
+    color: white;
+    max-height: 80vh;
+    overflow: hidden; /* updated */
+    position: relative;
+}
+
+.members-list-modal-content h2 {
+    color: #FFD700;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+/* Close Button */
+.members-list-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: #FFD700;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Scrollable List */
+.members-list-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 60vh;            
+    overflow-y: auto;          
+    padding-right: 8px;         
+}
+
+.members-list-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.members-list-body::-webkit-scrollbar-thumb {
+    background: #FFD700;
+    border-radius: 5px;
+}
+
+/* Member Entry */
+.member-entry {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background: wheat;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 215, 0, 0.1);
+    position: relative;
+}
+
+.member-entry span {
+    font-weight: 800;
+    color: black;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+    margin-right: 7.5rem; /* to reserve space for icons on the right */
+}
+
+.member-entry .icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Maintain your hover and sizing behavior */
+.member-entry .lichess {
+    right: 8.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.member-entry .chesscom {
+    right: 0.5rem;
+    width: 6rem;
+}
+
+/* Keep your existing hover effect as-is */
+.member-entry .icon:hover {
+    transform: scale(1.1) translateY(-50%);
+    filter: brightness(1.4);
+}
+
+.member-entry:hover {
+    background-color: gold;
+}
+
+
+@media (max-width: 500px) {
+    .members-list-modal-content {
+        width: 95%;
+        padding: 1rem;
+    }
+
+    .members-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .member-search-input,
+    .member-sort-select {
+        width: 100%;
+    }
+
+    .member-entry {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .member-entry span {
+        font-size: 0.95rem;
+    }
+
+    .member-entry .icon-container {
+        margin-left: auto;
+    }
+    .members-list-body{
+        padding-bottom: 1.5rem; 
+    }
+}
+
+
+
+
+
+/*search bar and sorting in member list modal*/
+.members-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.member-search-input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #FFD700;
+    background-color: #111;
+    color: white;
+    font-family: 'Playfair Display', serif;
+    outline: none;
+}
+
+.member-search-input::placeholder {
+    color: #aaa;
+}
+
+.member-sort-select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #FFD700;
+    background-color: #111;
+    color: white;
+    font-family: 'Playfair Display', serif;
+    cursor: pointer;
+}
+
+
+/* Style for mobile modal open button */
+#openMembersModal-mobile {
+    background-color: rgba(255, 215, 0, 0.1);
+    color: #FFD700;
+    border: 1px solid #FFD700;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: 'Playfair Display', serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+}
+
+#openMembersModal-mobile:hover {
+    background-color: #FFD700;
+    color: #000;
+}
+
+
+
+/*---------------------------------------------------------*/
+/*---------------------------------------------------------*/
+/*---------------------------------------------------------*/
+
+
+/*FOOTER*/
+footer {
+    width: 100vw;
+    background-color: #000000;
+    color: #fff;
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+
+/*---------------------------------------------------------*/
+/*---------------------------------------------------------*/
+/*---------------------------------------------------------*/
