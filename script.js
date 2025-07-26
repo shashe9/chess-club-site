@@ -230,14 +230,17 @@ function stopAutoSlide() {
 function resetIdleTimer() {
     clearTimeout(idleTimeout);
     idleTimeout = setTimeout(() => {
-        if (!userManuallyClicked && autoSlideActive) {
-            startAutoSlide(); // Resume after 15s of inactivity if allowed
+        userManuallyClicked = false;
+        if (autoSlideActive) {
+            startAutoSlide();
         }
-    }, 15000); // 15 seconds
+    }, 5000); // 15 seconds
 }
 
 // ===== Manual Navigation Handling =====
 function handleManualSlide(direction) {
+
+    userManuallyClicked = true;
     stopAutoSlide();
     if (direction === 'next') {
         currentIndex = (currentIndex + 1) % cards.length;
@@ -313,6 +316,8 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.style.overflow = "";
         }
     });
+
+    startAutoSlide();
 });
 
 
@@ -321,24 +326,24 @@ let touchStartX = 0;
 let touchEndX = 0;
 
 track.addEventListener('touchstart', (e) => {
-  touchStartX = e.changedTouches[0].screenX;
+    touchStartX = e.changedTouches[0].screenX;
 });
 
 track.addEventListener('touchend', (e) => {
-  touchEndX = e.changedTouches[0].screenX;
-  handleSwipeGesture();
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipeGesture();
 });
 
 function handleSwipeGesture() {
-  const swipeThreshold = 50; // Minimum swipe distance to trigger
+    const swipeThreshold = 50; // Minimum swipe distance to trigger
 
-  if (touchEndX < touchStartX - swipeThreshold) {
-    // Swiped left
-    handleManualSlide('next');
-  } else if (touchEndX > touchStartX + swipeThreshold) {
-    // Swiped right
-    handleManualSlide('prev');
-  }
+    if (touchEndX < touchStartX - swipeThreshold) {
+        // Swiped left
+        handleManualSlide('next');
+    } else if (touchEndX > touchStartX + swipeThreshold) {
+        // Swiped right
+        handleManualSlide('prev');
+    }
 }
 
 
