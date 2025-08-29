@@ -751,3 +751,222 @@ function filterAndSortMembers() {
 // Attach listeners if elements exist
 searchInput?.addEventListener('input', filterAndSortMembers);
 sortSelect?.addEventListener('change', filterAndSortMembers);
+
+
+
+//-------------------------------------------------------------------
+//===================================================================
+//-------------------------------------------------------------------
+const openEloBtn = document.getElementById('openEloModal');
+const closeEloBtn = document.getElementById('closeEloModal');
+const eloModal = document.querySelector('.elo-modal');
+
+openEloBtn.addEventListener('click', () => {
+    eloModal.style.display = 'block';
+});
+
+closeEloBtn.addEventListener('click', () => {
+    eloModal.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target === eloModal) {
+        eloModal.style.display = 'none';
+    }
+});
+
+
+// Populate top 5 Elo members
+function populateTopFiveElo() {
+    const allRows = Array.from(document.querySelectorAll('#eloAllMembersTable .elo-table-row'));
+    const topFiveContainer = document.getElementById('eloTopFiveRows');
+
+    // Sort by rating descending
+    const sorted = allRows.sort((a, b) => parseInt(b.dataset.rating) - parseInt(a.dataset.rating));
+
+    // Take top 5
+    const topFive = sorted.slice(0, 5);
+
+    // Clear previous top five
+    topFiveContainer.innerHTML = '';
+
+    // Append top 5 rows dynamically
+    topFive.forEach(row => {
+        const clone = row.cloneNode(true); // copy row
+        clone.classList.add('top-five-row'); // add class for styling
+        topFiveContainer.appendChild(clone);
+    });
+}
+
+// Run on page load
+document.addEventListener('DOMContentLoaded', populateTopFiveElo);
+
+
+//======================================================//
+//======================================================//
+//search and sorting inside modals 
+
+/* ELO search/filter/sort module */
+document.addEventListener('DOMContentLoaded', () => {
+  const openBtn = document.getElementById('openEloModal');
+  const closeBtn = document.getElementById('closeEloModal');
+  const eloModal = document.querySelector('.elo-modal');
+
+  const allTable = document.getElementById('eloAllMembersTable'); // container with header then rows
+  const topFiveContainer = document.getElementById('eloTopFiveRows');
+
+  // Controls
+  const searchInput = document.getElementById('eloSearchInput');
+  const genderFilter = document.getElementById('eloGenderFilter');
+  const deptFilter = document.getElementById('eloDeptFilter');
+  const sortSelect = document.getElementById('eloSortSelect');
+  const resetBtn = document.getElementById('eloResetBtn');
+
+  // Read initial rows into JS data model, then remove them from DOM
+  const initialRows = Array.from(allTable.querySelectorAll('.elo-table-row'));
+  const members = initialRows.map(row => {
+    const spans = row.querySelectorAll('span');
+    const name = spans[0].textContent.trim();
+    const department = spans[1].textContent.trim();
+    const rating = Number(row.dataset.rating || spans[2].textContent.replace(/\D+/g,'') ) || 0;
+    const gender = (row.dataset.gender || '').toUpperCase();
+    return { name, department, rating, gender };
+  });
+  // remove static rows so we can render dynamically (keeps header in place)
+  initialRows.forEach(r => r.remove());
+
+  /* helper: sanitize simple text for insertion */
+  function escapeHTML(s) {
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  /* Build a DOM row element from member object */
+  function buildRowElement(m) {
+    const row = document.createElement('div');
+    row.className = 'elo-table-row';
+    if (m.gender) row.dataset.gender = m.gender;
+    if (m.department) row.dataset.department = m.department;
+    if (typeof m.rating !== 'undefined') row.dataset.rating = String(m.rating);
+
+    // three spans: name | dept | rating
+    row.innerHTML = `
+      <span>${escapeHTML(m.name)}</span>
+      <span>${escapeHTML(m.department)}</span>
+      <span>${escapeHTML(String(m.rating))}</span>
+    `;
+    return row;
+  }
+
+  /* Render given list into modal table (keeps header intact) */
+  function renderMembers(list) {
+    // remove existing rows (keep header)
+    allTable.querySelectorAll('.elo-table-row').forEach(el => el.remove());
+    const frag = document.createDocumentFragment();
+    list.forEach(m => frag.appendChild(buildRowElement(m)));
+    allTable.appendChild(frag);
+  }
+
+  /* Populate department select with unique options */
+  function populateDeptOptions() {
+    const depts = Array.from(new Set(members.map(m => m.department).filter(Boolean))).sort((a,b)=>a.localeCompare(b));
+    deptFilter.innerHTML = `<option value="all">All departments</option>` +
+      depts.map(d => `<option value="${escapeHTML(d)}">${escapeHTML(d)}</option>`).join('');
+  }
+
+  /* Apply search/filter/sort and return resulting array */
+  function getFilteredSortedMembers() {
+    const q = (searchInput.value || '').trim().toLowerCase();
+    let list = members.slice();
+
+    // gender filter
+    const gen = genderFilter.value;
+    if (gen && gen !== 'all') list = list.filter(m => (m.gender || '').toUpperCase() === gen.toUpperCase());
+
+    // department filter
+    const dept = deptFilter.value;
+    if (dept && dept !== 'all') list = list.filter(m => (m.department || '') === dept);
+
+    // search filter (name or department)
+    if (q) {
+      list = list.filter(m =>
+        (m.name || '').toLowerCase().includes(q) ||
+        (m.department || '').toLowerCase().includes(q)
+      );
+    }
+
+    // sort
+    switch (sortSelect.value) {
+      case 'rating-desc':
+        list.sort((a,b) => b.rating - a.rating);
+        break;
+      case 'rating-asc':
+        list.sort((a,b) => a.rating - b.rating);
+        break;
+      case 'alpha-asc':
+        list.sort((a,b) => a.name.localeCompare(b.name));
+        break;
+      case 'alpha-desc':
+        list.sort((a,b) => b.name.localeCompare(a.name));
+        break;
+      default:
+        list.sort((a,b) => b.rating - a.rating);
+    }
+    return list;
+  }
+
+  /* Update modal list from controls */
+  function updateModalList() {
+    const out = getFilteredSortedMembers();
+    renderMembers(out);
+  }
+
+  /* Populate Top 5 on page (global rating-wise) */
+  function populateTopFiveElo() {
+    const topFive = members.slice().sort((a,b) => b.rating - a.rating).slice(0,5);
+    topFiveContainer.innerHTML = '';
+    const frag = document.createDocumentFragment();
+    topFive.forEach(m => {
+      const row = buildRowElement(m);
+      row.classList.add('top-five-row');
+      frag.appendChild(row);
+    });
+    topFiveContainer.appendChild(frag);
+  }
+
+  /* Reset controls */
+  function resetControls() {
+    searchInput.value = '';
+    genderFilter.value = 'all';
+    deptFilter.value = 'all';
+    sortSelect.value = 'rating-desc';
+    updateModalList();
+  }
+
+  /* Hook up events */
+  // Open modal (populate deps + render default list)
+  openBtn.addEventListener('click', () => {
+    populateDeptOptions();
+    resetControls();
+    eloModal.style.display = 'block';
+    // place focus on search for quick keyboard use
+    setTimeout(() => searchInput.focus(), 50);
+  });
+
+  // Close modal
+  closeBtn.addEventListener('click', () => eloModal.style.display = 'none');
+  window.addEventListener('click', e => { if (e.target === eloModal) eloModal.style.display = 'none'; });
+
+  // Live update on input/change
+  searchInput.addEventListener('input', updateModalList);
+  genderFilter.addEventListener('change', updateModalList);
+  deptFilter.addEventListener('change', updateModalList);
+  sortSelect.addEventListener('change', updateModalList);
+  resetBtn.addEventListener('click', resetControls);
+
+  // initial top5 render on page load
+  populateTopFiveElo();
+
+  // also prepare modal default list (so when user opens first time it's ready)
+  // but don't show modal yet — just render the default dataset
+  renderMembers(members.slice().sort((a,b) => b.rating - a.rating));
+});

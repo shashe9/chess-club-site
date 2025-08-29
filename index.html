@@ -37,6 +37,7 @@
                 <li><a href="#results">Results</a></li>
                 <li><a href="#timeline">Milestones</a></li>
                 <li><a href="#team">Team</a></li>
+                <li><a href="#rating-elo">Ratings</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
@@ -1174,6 +1175,168 @@
         
     </section>
 
+
+
+    <section id="rating-elo" class="ratingsorelo">
+
+        <h2 id="section-rating-header" class="section-rating-header">Ratings & Elo</h2>
+
+        <!-- Top 5 Elo Table -->
+        <div class="elo-top-five-table">
+            <div class="elo-table-header">
+                <span>Name</span>
+                <span>Department</span>
+                <span>Rating</span>
+            </div>
+            <div id="eloTopFiveRows">
+                <!-- JS will populate top 5 rows here -->
+            </div>
+        </div>
+
+        <!-- Button to open modal -->
+        <button id="openEloModal" class="elo-btn">View Full Ratings</button>
+
+        <!-- Elo Modal -->
+        <div class="elo-modal">
+            <div class="elo-modal-content">
+                <span class="elo-close" id="closeEloModal">&times;</span>
+                <h2>All Members Ratings</h2>
+
+                <!-- SEARCH / FILTER / SORT CONTROLS -->
+                <div class="elo-controls">
+                <input id="eloSearchInput"
+                        type="search"
+                        placeholder="Search by name or department..."
+                        aria-label="Search members by name or department">
+
+                <select id="eloGenderFilter" aria-label="Filter by gender">
+                    <option value="all">All genders</option>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                </select>
+
+                <select id="eloDeptFilter" aria-label="Filter by department">
+                    <option value="all">All departments</option>
+                    <!-- more options populated by JS -->
+                </select>
+
+                <select id="eloSortSelect" aria-label="Sort members">
+                    <option value="rating-desc">Rating: High → Low</option>
+                    <option value="rating-asc">Rating: Low → High</option>
+                    <option value="alpha-asc">Name: A → Z</option>
+                    <option value="alpha-desc">Name: Z → A</option>
+                </select>
+
+                <button id="eloResetBtn" class="elo-small-btn" title="Reset filters">Reset</button>
+                </div>
+
+
+                <div class="elo-modal-table" id="eloAllMembersTable">
+                    <div class="elo-table-header">
+                        <span>Name</span>
+                        <span>Department</span>
+                        <span>Rating</span>
+                    </div>
+
+                    <!-- All member rows with rating, department, and hidden gender -->
+                    <div class="elo-table-row" data-gender="M" data-rating="1492" data-department="ECE">
+                        <span>Shashank Shekhar</span>
+                        <span>ECE</span>
+                        <span>1492</span>
+                    </div>
+                    <div class="elo-table-row" data-gender="M" data-rating="1516" data-department="IT">
+                        <span>Divyansh Agarwal</span>
+                        <span>IT</span>
+                        <span>1516</span>
+                    </div>
+                    <div class="elo-table-row" data-gender="M" data-rating="1510" data-department="CE">
+                        <span>Bhawani Krishan Pal Singh</span>
+                        <span>CE</span>
+                        <span>1510</span>
+                    </div>
+                    <div class="elo-table-row" data-gender="M" data-rating="1505" data-department="MCA">
+                        <span>Bhavesh Chouhan</span>
+                        <span>MCA</span>
+                        <span>1505</span>
+                    </div>
+                    <div class="elo-table-row" data-gender="M" data-rating="1500" data-department="CE">
+                        <span>Vikram Singh</span>
+                        <span>CE</span>
+                        <span>1500</span>
+                    </div>
+                    <div class="elo-table-row" data-gender="M" data-rating="1008" data-department="CSE">
+                        <span>Divyansh Sharma</span>
+                        <span>CSE</span>
+                        <span>1008</span>
+                    </div>
+                    <div class="elo-table-row" data-gender="M" data-rating="1006" data-department="ECE">
+                        <span>Bhawani Singh</span>
+                        <span>ECE</span>
+                        <span>1006</span>
+                    </div>
+                    <div class="elo-table-row" data-gender="M" data-rating="1000" data-department="CSE">
+                        <span>Awadhesh Khatri</span>
+                        <span>CSE</span>
+                        <span>1000</span>
+                    </div>
+                    <div class="elo-table-row" data-gender="M" data-rating="1000" data-department="BCT">
+                        <span>Akshat Hatila</span>
+                        <span>BCT</span>
+                        <span>1000</span>
+                    </div>
+                    <div class="elo-table-row" data-gender="M" data-rating="992" data-department="CSE">
+                        <span>Aayush Soni</span>
+                        <span>CSE</span>
+                        <span>992</span>
+                    </div>
+                    <div class="elo-table-row" data-gender="M" data-rating="992" data-department="ME">
+                        <span>Aaditya Kumawat</span>
+                        <span>ME</span>
+                        <span>992</span>
+                    </div>
+                    <div class="elo-table-row" data-gender="M" data-rating="976" data-department="N/A">
+                        <span>Chirag Jaipal</span>
+                        <span>N/A</span>
+                        <span>976</span>
+                    </div>
+
+                    <!--Girls Details-->
+
+
+                    <div class="elo-table-row" data-gender="F" data-rating="1008" data-department="CSE">
+                        <span>Milli Ranka</span>
+                        <span>CSE</span>
+                        <span>1008</span>
+                    </div>
+                    <div class="elo-table-row" data-gender="F" data-rating="1000" data-department="BCT">
+                        <span>Kangana Chandak</span>
+                        <span>BCT</span>
+                        <span>1000</span>
+                    </div>
+                    <div class="elo-table-row" data-gender="F" data-rating="992" data-department="IT">
+                        <span>Divyanshi Sharma</span>
+                        <span>IT</span>
+                        <span>992</span>
+                    </div>
+
+
+
+                    <!-- Add remaining members here -->
+
+
+                    
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+    </section>
+        
+        
 
 
 

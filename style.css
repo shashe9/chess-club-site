@@ -184,7 +184,7 @@ nav a.active {
         top: 5rem;
         right: 2rem;
         width: 16rem;
-        height: 28rem;
+        height: 32rem;
         padding: 1rem;
         border: 1px solid gold;
         border-radius: 8px;
@@ -2435,6 +2435,330 @@ footer {
     margin-top: 2rem;
 }
 
-/*---------------------------------------------------------*/
-/*---------------------------------------------------------*/
-/*---------------------------------------------------------*/
+/* ---------------------------------------------------------
+   ELO TABLES (Top 5 + Modal)
+   ---------------------------------------------------------*/
+
+/* Top 5 wrapper (page) */
+
+.ratingsorelo {
+    background: #000000; 
+    padding: 80px 10px;
+    text-align: center;
+}
+
+.ratingsorelo .section-rating-header {
+  font-size: 36px;
+  margin-bottom: 30px;
+  color: #ffd700;
+}
+
+.elo-top-five-table {
+    background-color: transparent;                /* container darker feel is optional */
+    border: none;                                  /* rows themselves will carry borders */
+    max-width: 800px;
+    margin: 2rem auto;
+    font-family: 'Playfair Display', serif;
+    padding: 12px;                                 /* breathing room so row cards don't touch edges */
+    box-sizing: border-box;
+    border: 2px solid #FFD700;   /* gold outline */
+    border-radius: 10px;
+}
+
+/* Mobile side margins for top 5 */
+@media (max-width: 768px) {
+    .elo-top-five-table {
+      margin: 1.25rem 20px;
+      padding: 10px;
+    }
+}
+
+/* Modal table wrapper (inside modal) */
+.elo-modal-table {
+    background-color: transparent;                 /* modal content has its own bg */
+    border-radius: 10px;
+    margin-top: 1rem;
+    max-height: 60vh;         /* internal scroll area for rows */
+    overflow-y: auto;
+    padding: 12px;            /* padding so cards have space from modal edges */
+    box-sizing: border-box;
+    border: 2px solid #FFD700;   /* gold outline inside modal too */
+    border-radius: 10px;
+    padding: 12px;               /* keep spacing */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;   /* spacing between row-cards */
+}
+
+/* Scrollbar for modal rows (match members modal) */
+.elo-modal-table::-webkit-scrollbar {
+    width: 6px;
+}
+.elo-modal-table::-webkit-scrollbar-thumb {
+    background: #FFD700;
+    border-radius: 5px;
+}
+
+/* The header bar (dark + gold text) — appears above card rows */
+.elo-table-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr; /* Name | Department | Rating */
+    align-items: center;
+    background-color: #161616;
+    color: #FFD700;
+    font-weight: 700;
+    border-radius: 8px;            /* visually pair with row cards */
+    padding: 0.6rem 0.9rem;
+    gap: 0;
+    box-sizing: border-box;
+    position: sticky;               /* header sticks inside modal scroll area */
+    top: 0;
+    z-index: 5;
+    margin-bottom: 8px;             /* small gap between header and first row */
+}
+
+/* header cell spacing */
+.elo-table-header span {
+    padding: 0 0.6rem;
+    text-align: left;
+    letter-spacing: 0.2px;
+    font-family: 'Playfair Display', serif;
+}
+
+/* container for page top-5 rows (keeps rows stacked) */
+#eloTopFiveRows {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;              /* spacing between row-cards on page */
+    background: transparent;
+}
+
+/* Each row becomes a card */
+.elo-table-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr; /* keep same column widths */
+    align-items: center;
+    gap: 0;
+    background-color: wheat;                    /* card background */
+    color: #000;                                /* dark text on wheat */
+    border: 1px solid rgba(255, 215, 0, 0.15);  /* subtle gold border */
+    border-radius: 8px;                         /* rounded corners for each card */
+    padding: 0.5rem 0.75rem;                    /* internal padding */
+    box-shadow: 0 1px 0 rgba(0,0,0,0.04) inset; /* subtle inner line */
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+/* spacing within card cells */
+.elo-table-row span {
+    padding: 0 0.6rem;
+    line-height: 1.25;
+    text-align: left;
+    font-family: 'Playfair Display', serif;
+    overflow-wrap: anywhere;
+}
+
+/* Name emphasis */
+.elo-table-row span:nth-child(1) {
+    font-weight: 600;
+}
+
+/* Rating column formatting (numbers align right) */
+.elo-table-row span:nth-child(3) {
+    font-family: 'Playfair Display', serif;
+    text-align: right;
+    min-width: 4ch;
+    padding-right: 0.6rem;
+}
+
+/* Header rating alignment to match the card cells */
+.elo-table-header span:nth-child(3) {
+    text-align: right;
+    padding-right: 0.6rem;
+}
+
+/* Hover/tap feedback for cards */
+.elo-table-row:hover {
+    background-color: #FFD700;        /* gold on hover */
+    color: #000;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+.elo-table-row:hover span:nth-child(3) { color: #000; }
+
+/* Top-5 cards on the page: slightly bolder text, keep subtle background if preferred */
+#eloTopFiveRows .elo-table-row {
+    /* If you want top-5 to be identical to modal rows, keep this empty.
+       If you want them visually different (e.g. darker or no shadow), adjust here. */
+}
+
+/* Button that opens modal (keeps members modal style) */
+.elo-btn {
+    background-color: rgba(255, 215, 0, 0.1);
+    color: #FFD700;
+    border: 1px solid #FFD700;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: 'Playfair Display', serif;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    backdrop-filter: blur(4px);
+    display: block;
+    margin: 14px auto 0;
+}
+.elo-btn:hover {
+    background-color: #FFD700;
+    color: #000;
+}
+.elo-btn:active {
+    transform: translateY(0);
+    background-color: #1a252f;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+/* Modal shell and content (kept consistent with your theme) */
+
+
+.elo-modal-table {
+  flex: 1;
+  overflow-y: auto;
+  padding-top: 0px;   /* push content down slightly */
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-bottom: 12px;
+}
+
+.elo-modal {
+    display: none;
+    position: fixed;
+    z-index: 1100;
+    inset: 0;
+    background-color: rgba(0,0,0,0.7);
+    -webkit-overflow-scrolling: touch;
+}
+.elo-modal-content {
+    background-color: #111;
+    margin: 5% auto;
+    padding: 18px;
+    border: 1px solid #FFD700;
+    width: 92%;
+    max-width: 720px;
+    border-radius: 10px;
+    color: white;
+    max-height: 84vh;
+    overflow: hidden; /* table scrolls inside modal area */
+    position: relative;
+    text-align: left;
+}
+.elo-modal-content h2 {
+    color: #FFD700;
+    margin: 0 0 0.6rem 0;
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+}
+
+/* Ensure sticky header inside the modal's scroll area */
+.elo-modal-table .elo-table-header {
+    position: sticky;
+    top: 0;
+    z-index: 6;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2); /* subtle separation while scrolling */
+    position: sticky;
+    top: 0;
+    background-color: #161616;  /* solid dark background to cover scroll gap */
+    z-index: 10;
+    margin-bottom: 8px;
+
+}
+
+.elo-modal-table .elo-table-row {
+    margin: 0; /* reset, spacing is now handled by gap */
+}
+
+/* Close button */
+.elo-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: #FFD700;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Controls for search / filters (keep styling similar to members modal) */
+.elo-controls {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0.6rem 0 0.8rem;
+  justify-content: space-between;
+}
+.elo-controls input[type="search"] {
+  flex: 1 1 40%;
+  min-width: 160px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #FFD700;
+  background: #111;
+  color: #fff;
+  font-family: 'Playfair Display', serif;
+  outline: none;
+}
+/* gold search clear icon for WebKit */
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  height: 16px; width: 16px;
+  background: #FFD700;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'><path fill='black' d='M12.207 4.207a1 1 0 0 0-1.414-1.414L8 5.586 5.207 2.793A1 1 0 0 0 3.793 4.207L6.586 7 3.793 9.793a1 1 0 1 0 1.414 1.414L8 8.414l2.793 2.793a1 1 0 0 0 1.414-1.414L9.414 7z'/></svg>") center/contain no-repeat;
+  cursor: pointer;
+}
+.elo-controls select {
+  flex: 0 0 150px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,215,0,0.25);
+  background: #111;
+  color: #fff;
+  font-family: 'Playfair Display', serif;
+  cursor: pointer;
+}
+.elo-small-btn {
+  flex: 0 0 auto;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #FFD700;
+  background: rgba(255,215,0,0.08);
+  color: #FFD700;
+  cursor: pointer;
+  font-family: 'Playfair Display', serif;
+  transition: background .2s, transform .08s;
+}
+.elo-small-btn:hover { background: #FFD700; color:#000; transform: translateY(-1px); }
+.elo-small-btn:active { transform: translateY(0); }
+
+/* Responsive: stack controls & hide department column on narrow screens */
+@media (max-width: 640px) {
+  .elo-controls { gap: 0.5rem; }
+  .elo-controls input[type="search"] { flex-basis: 100%; }
+  .elo-controls select { flex-basis: 48%; }
+  .elo-small-btn { flex-basis: 48%; }
+
+  /* hide department column for space */
+  .elo-table-header { grid-template-columns: 2fr 1fr; }
+  .elo-table-header span:nth-child(2) { display: none; }
+  .elo-table-row { grid-template-columns: 2fr 1fr; }
+  .elo-table-row span:nth-child(2) { display: none; }
+
+  .elo-table-header span,
+  .elo-table-row span { padding: 0.5rem 0.6rem; font-size: 0.95rem; }
+}
+
+/* Optional: slight visual tweak for very small screens */
+@media (max-width: 420px) {
+  .elo-modal-content { padding: 14px; width: 95%; }
+  .elo-top-five-table { padding: 8px; margin: 1rem 14px; }
+  .elo-table-row { padding: 0.45rem 0.5rem; }
+}
