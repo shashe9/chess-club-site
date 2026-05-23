@@ -1,72 +1,192 @@
-# ♟️ KingsCourt Chess Club Website
+# KingsCourt Chess Club Website
 
-Welcome to the official website of the **KingsCourt Chess Club**!  
-This site serves as the digital hub for our college's chess club — built to showcase our members, events, announcements, and contact info.
+A responsive and community-focused website developed for the KingsCourt Chess Club to serve as the club’s digital presence and information hub.
 
-<br/>
+The project was created to showcase club members, chess ratings, announcements, events, downloadable resources, and contact information through a clean and accessible frontend interface.
 
-## 🌐 Live Demo
+The website also includes dynamic features such as member rating search and sorting functionality to improve usability and engagement.
 
-🔗 [Visit the Website](https://kingscourtclub.netlify.app/)
+---
 
-<br/>
-
-## 📁 Project Structure
-
-Chess_club/
-├── index.html  # Main homepage
-├── style.css   # Styling for the site
-├── script.js   # JavaScript for interactivity
-├── images/     # All image assets used across the site
-└── doc/        # PDFs and official club documents
+ [Visit the Website](https://kingscourtclub.netlify.app/)
 
 
-<br/>
+# Project Overview
 
-## 🧠 Features
+This project was built as a frontend web development initiative for the college chess club with the objective of creating:
 
-- 📌 Clean and modern homepage
-- 🧑‍🤝‍🧑 Members showcase with images and names
-- 📅 Announcements and club events section
-- 📎 Document downloads (PDFs)
-- ✉️ Contact section with email & social links
-- 📱 Fully responsive for mobile and desktop
+* A centralized club website
+* A member showcase platform
+* An event and announcement portal
+* A public-facing chess community presence
+* A lightweight and responsive frontend experience
 
-<br/>
+The repository represents a practical frontend development and UI structuring project using standard web technologies.
 
-## 🚀 Deployment
+---
 
-This website is deployed using [**Netlify**](https://www.netlify.com/).  
-It supports **automatic deployment** via GitHub — any commit pushed to the `main` branch is instantly reflected live.
+# Core Features
 
-> ⚙️ Netlify settings:
-> - **Build Command:** *(none needed — plain HTML/CSS/JS)*
-> - **Publish Directory:** `.`
+* Responsive homepage and club landing page
+* Member showcase section
+* Elo / Rating listing system
+* Search and sorting functionality for player ratings
+* Announcements and events section
+* Document and PDF hosting support
+* Contact and social media integration
+* Mobile-friendly responsive design
+* Lightweight static deployment architecture
 
-<br/>
+---
 
-## 🛠️ Tech Stack
+# Technology Stack
 
-- HTML5
-- CSS3
-- JavaScript (Vanilla)
-- Netlify (Hosting)
-- GitHub (Version control)
+| Technology | Purpose                       |
+| ---------- | ----------------------------- |
+| HTML5      | Page structure                |
+| CSS3       | Styling and responsive layout |
+| JavaScript | Frontend interactivity        |
+| Netlify    | Deployment and hosting        |
+| GitHub     | Version control               |
 
-<br/>
+---
 
-## 📄 License
+# Repository Structure
 
-This project is open-source and maintained by KingsCourt Chess Club.  
-Feel free to fork or contribute for educational and non-commercial purposes.
+```plaintext id="9m2vqx"
+chess-club-site/
+│
+├── docs/
+├── images/
+├── index.html
+├── script.js
+├── style.css
+└── README.md
+```
 
-<br/>
+---
 
-## 🙌 Acknowledgments
+# Key Functionalities
 
-Built with love by the KingsCourt team 💙  
-If you're a student at our college, feel free to reach out and join the club!
+## Member & Rating System
 
-📧 Kingscourtclub@gmail.com
+The website includes:
 
---------------------------------------------------------------------------------------
+* Chess club member listings
+* Elo/rating display system
+* Search functionality for player lookup
+* Dynamic sorting support for rankings
+
+This feature was added to improve usability and create a more organized member presentation system.
+
+---
+
+## Announcements & Events
+
+The platform provides sections for:
+
+* Club notices
+* Upcoming chess events
+* Important updates
+* Community engagement information
+
+---
+
+## Resource & Document Support
+
+The repository supports hosting:
+
+* PDFs
+* Official club documents
+* Informational resources
+* Downloadable files for members
+
+---
+
+# Deployment
+
+The project is deployed using Netlify with automatic deployment integration through GitHub.
+
+Deployment workflow:
+
+* Push updates to the main branch
+* Netlify automatically rebuilds and deploys the latest version
+
+---
+
+# Development Approach
+
+This project was developed as a practical frontend learning and community-oriented web project.
+
+The focus areas included:
+
+* Responsive UI design
+* Static site architecture
+* DOM manipulation using JavaScript
+* Frontend organization
+* Deployment workflows
+* Community-focused interface design
+
+---
+
+# Educational Purpose
+
+This repository is intended for:
+
+* Frontend development practice
+* Club/community website development
+* JavaScript DOM manipulation learning
+* Responsive design experimentation
+* Practical deployment experience
+
+---
+
+# Future Improvements
+
+Potential future enhancements include:
+
+* Backend integration for dynamic data
+* Online tournament management
+* Member authentication system
+* Chess game analysis section
+* Live tournament standings
+* Admin dashboard
+* Event registration workflows
+* Database integration
+* Blog/news posting system
+
+---
+
+# Usage
+
+Clone the repository:
+
+```bash id="r6y2ku"
+git clone https://github.com/shashe9/chess-club-site.git
+```
+
+Run locally by opening:
+
+```plaintext id="k8d4zt"
+index.html
+```
+
+Or deploy using:
+
+* Netlify
+* GitHub Pages
+* Vercel
+
+---
+
+# Important Note
+
+This repository was developed as a frontend web project for the college chess club and is intended for educational, organizational, and community engagement purposes.
+
+---
+
+# Author
+
+**Shashank Shekhar**
+Computer Science Engineering Undergraduate
+2026
