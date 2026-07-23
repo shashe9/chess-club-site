@@ -512,141 +512,461 @@ document.querySelectorAll('.open-detail-modal-btn').forEach(button => {
 
 
 
-//Timeline expansion
-const expandBtn = document.getElementById("expandTimelineBtn");
-const collapseBtn = document.getElementById("collapseTimelineBtn");
-const hiddenTimeline = document.querySelector(".more-timeline");
+// === API CONFIGURATION ===
+const PLATFORM_API_BASE = 'http://localhost:3000';
+const CARDS_PER_SLIDE = 3;
 
-expandBtn.addEventListener("click", () => {
-    hiddenTimeline.classList.remove("hidden");          // Show hidden timeline
-    expandBtn.classList.add("hidden");                  // Hide "Show Full Timeline" button
-    collapseBtn.classList.remove("hidden");             // Show "Collapse" button
-});
-
-collapseBtn.addEventListener("click", () => {
-    hiddenTimeline.classList.add("hidden");             // Hide timeline again
-    collapseBtn.classList.add("hidden");                // Hide "Collapse" button
-    expandBtn.classList.remove("hidden"); 
-                
-});                                                     // Re-show "Show Full Timeline" button
-
-
-document.getElementById("timeline").scrollIntoView({ behavior: "smooth" });
-
-
-
-
-const timelineItems = document.querySelectorAll('.timeline-item');
-
-    function activateCenterItem() {
-        const viewportCenter = window.innerHeight / 2;
-        let closestItem = null;
-        let minDistance = Infinity;
-
-        timelineItems.forEach(item => {
-            const rect = item.getBoundingClientRect();
-            const itemCenter = rect.top + rect.height / 2;
-            const distance = Math.abs(viewportCenter - itemCenter);
-
-            if (distance < minDistance) {
-                minDistance = distance;
-                closestItem = item;
-            }
-    });
-
-    // Remove .active from all
-    timelineItems.forEach(item => item.classList.remove('active'));
-
-    // Add .active to the closest one
-    if (closestItem) {
-        closestItem.classList.add('active');
+// === API FETCHING LAYER ===
+async function fetchAPI(endpoint) {
+  const url = `${PLATFORM_API_BASE}${endpoint}`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      throw new TypeError("Response was not JSON!");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`Fetch API Error [${endpoint}]:`, error);
+    throw error;
   }
-
-    // Trigger on scroll and on load
-    window.addEventListener('scroll', activateCenterItem);
-    window.addEventListener('load', activateCenterItem);
-
-
-
-// === TEAM SECTION JS with LOOPING + DOT INDICATORS ===
-
-// Get all team slides
-const teamSlides = document.querySelectorAll(".team-slide");
-const teamNextBtn = document.getElementById("team-next");
-const teamPrevBtn = document.getElementById("team-prev");
-const teamIndicatorsContainer = document.getElementById("team-indicators"); // Make sure you add <div id="team-indicators"></div> in HTML
-
-let teamCurrentSlide = 0;
-
-// Create indicator dots dynamically
-teamSlides.forEach((_, index) => {
-    const dot = document.createElement("span");
-    dot.classList.add("dot");
-    dot.addEventListener("click", () => {
-        teamCurrentSlide = index;
-        showTeamSlide(teamCurrentSlide);
-    });
-    teamIndicatorsContainer.appendChild(dot);
-});
-
-// Function to show the correct slide
-function showTeamSlide(index) {
-    teamSlides.forEach((slide, i) => {
-        slide.classList.toggle("active-slide", i === index);
-  });
-
-    const allDots = document.querySelectorAll(".team-indicators .dot");
-    allDots.forEach((dot, i) => {
-        dot.classList.toggle("active", i === index);
-    });
 }
 
-// Looping behavior
-teamNextBtn.addEventListener("click", () => {
-    teamCurrentSlide = (teamCurrentSlide + 1) % teamSlides.length;
+// === DOM RENDER FUNCTIONS ===
+function renderAbout(data) {
+  const placeholder = document.getElementById('about-content-placeholder');
+  if (!placeholder) return;
+
+  const fragment = document.createDocumentFragment();
+
+  const p1 = document.createElement('p');
+  p1.innerHTML = data.history.replace("The King's Court", "<strong>The King's Court</strong>");
+  fragment.appendChild(p1);
+
+  const p2 = document.createElement('p');
+  p2.innerHTML = data.vision.replace("strategize, compete, conquer", "<em>strategize, compete, conquer</em>");
+  fragment.appendChild(p2);
+
+  const p3 = document.createElement('p');
+  p3.textContent = data.mission;
+  fragment.appendChild(p3);
+
+  placeholder.innerHTML = '';
+  placeholder.appendChild(fragment);
+}
+
+function createTimelineItem(item, index) {
+  const alignClass = (index % 2 === 0) ? 'left' : 'right';
+  const div = document.createElement('div');
+  div.className = `timeline-item ${alignClass}`;
+  
+  const contentDiv = document.createElement('div');
+  contentDiv.className = 'content';
+  
+  const h3 = document.createElement('h3');
+  h3.textContent = item.title;
+  contentDiv.appendChild(h3);
+  
+  const p = document.createElement('p');
+  p.textContent = item.description;
+  contentDiv.appendChild(p);
+  
+  div.appendChild(contentDiv);
+  return div;
+}
+
+function renderTimeline(items) {
+  const placeholder = document.getElementById('timeline-placeholder');
+  if (!placeholder) return;
+
+  const fragment = document.createDocumentFragment();
+
+  const visibleItems = items.slice(0, 3);
+  const hiddenItems = items.slice(3);
+
+  visibleItems.forEach((item, idx) => {
+    const el = createTimelineItem(item, idx);
+    fragment.appendChild(el);
+  });
+
+  if (hiddenItems.length > 0) {
+    const moreDiv = document.createElement('div');
+    moreDiv.className = 'more-timeline hidden';
+    hiddenItems.forEach((item, idx) => {
+      const el = createTimelineItem(item, idx + visibleItems.length);
+      moreDiv.appendChild(el);
+    });
+    fragment.appendChild(moreDiv);
+
+    const expandBtn = document.getElementById('expandTimelineBtn');
+    const collapseBtn = document.getElementById('collapseTimelineBtn');
+    if (expandBtn) expandBtn.classList.remove('hidden');
+    if (collapseBtn) collapseBtn.classList.add('hidden');
+  } else {
+    const expandBtn = document.getElementById('expandTimelineBtn');
+    const collapseBtn = document.getElementById('collapseTimelineBtn');
+    if (expandBtn) expandBtn.classList.add('hidden');
+    if (collapseBtn) collapseBtn.classList.add('hidden');
+  }
+
+  placeholder.innerHTML = '';
+  placeholder.appendChild(fragment);
+}
+
+function createTeamCard(member) {
+  const card = document.createElement('div');
+  card.className = member.featured ? 'team-card big-card' : 'team-card';
+
+  const inner = document.createElement('div');
+  inner.className = 'card-inner';
+
+  const front = document.createElement('div');
+  front.className = 'card-front';
+
+  const img = document.createElement('img');
+  img.src = member.photo ? (member.photo.startsWith('http') || member.photo.startsWith('images/') ? member.photo : `images/${member.photo}`) : 'images/male_no_profile.jpg';
+  img.alt = member.name;
+  front.appendChild(img);
+
+  const h3 = document.createElement('h3');
+  h3.textContent = member.name;
+  front.appendChild(h3);
+
+  const pRole = document.createElement('p');
+  pRole.textContent = member.role;
+  front.appendChild(pRole);
+
+  if (member.quote) {
+    const pQuote = document.createElement('p');
+    pQuote.className = 'quote';
+    pQuote.textContent = `"${member.quote}"`;
+    front.appendChild(pQuote);
+  }
+
+  const pMoreFront = document.createElement('p');
+  pMoreFront.className = 'more';
+  pMoreFront.textContent = 'Click to flip the card';
+  front.appendChild(pMoreFront);
+
+  const socialsDiv = document.createElement('div');
+  socialsDiv.className = 'socials';
+  if (member.socials?.linkedin) {
+    const aLink = document.createElement('a');
+    aLink.href = member.socials.linkedin;
+    aLink.target = '_blank';
+    aLink.textContent = 'LinkedIn';
+    socialsDiv.appendChild(aLink);
+  }
+  if (member.socials?.instagram) {
+    const aInst = document.createElement('a');
+    aInst.href = member.socials.instagram;
+    aInst.target = '_blank';
+    aInst.textContent = 'Instagram';
+    socialsDiv.appendChild(aInst);
+  }
+  front.appendChild(socialsDiv);
+  inner.appendChild(front);
+
+  const back = document.createElement('div');
+  back.className = 'card-back';
+
+  const h3Back = document.createElement('h3');
+  h3Back.textContent = member.name;
+  back.appendChild(h3Back);
+
+  const pRating = document.createElement('p');
+  pRating.innerHTML = `<strong>Rating:</strong> ${member.rating !== undefined ? member.rating : 'N/A'}`;
+  back.appendChild(pRating);
+
+  const pOpening = document.createElement('p');
+  pOpening.innerHTML = `<strong>Opening:</strong> ${member.opening || 'N/A'}`;
+  back.appendChild(pOpening);
+
+  const pFact = document.createElement('p');
+  pFact.innerHTML = `<strong>Fact:</strong> ${member.fact || 'N/A'}`;
+  back.appendChild(pFact);
+
+  const pMoreBack = document.createElement('p');
+  pMoreBack.className = 'more';
+  pMoreBack.textContent = 'Click to flip back';
+  back.appendChild(pMoreBack);
+
+  inner.appendChild(back);
+  card.appendChild(inner);
+
+  card.addEventListener('click', (e) => {
+    if (e.target.tagName.toLowerCase() === 'a') {
+      return;
+    }
+    card.classList.toggle('flipped');
+  });
+
+  return card;
+}
+
+function renderTeam(teamMembers) {
+  const desktopPlaceholder = document.getElementById('team-desktop-placeholder');
+  const mobilePlaceholder = document.getElementById('team-mobile-placeholder');
+
+  const categories = [...new Set(teamMembers.map(m => m.category))];
+
+  const categoryNames = {
+    faculty: 'Faculty Advisors',
+    head: 'Head Team',
+    core: 'Core Team',
+    developer: 'Developer Team'
+  };
+
+  if (desktopPlaceholder) {
+    const desktopFragment = document.createDocumentFragment();
+    let isFirstSlide = true;
+
+    categories.forEach(cat => {
+      const catMembers = teamMembers.filter(m => m.category === cat);
+      if (catMembers.length === 0) return;
+      
+      for (let i = 0; i < catMembers.length; i += CARDS_PER_SLIDE) {
+        const chunk = catMembers.slice(i, i + CARDS_PER_SLIDE);
+        
+        const slide = document.createElement('div');
+        slide.className = 'team-slide';
+        if (isFirstSlide) {
+          slide.classList.add('active-slide');
+          isFirstSlide = false;
+        }
+
+        const title = document.createElement('h3');
+        title.className = 'slide-title';
+        title.textContent = categoryNames[cat] || (cat.charAt(0).toUpperCase() + cat.slice(1) + ' Team');
+        slide.appendChild(title);
+
+        const row = document.createElement('div');
+        row.className = 'team-slide-row';
+        if (cat === 'head') {
+          row.classList.add('head-team-layout');
+        }
+
+        chunk.forEach(member => {
+          const card = createTeamCard(member);
+          row.appendChild(card);
+        });
+
+        slide.appendChild(row);
+        desktopFragment.appendChild(slide);
+      }
+    });
+
+    desktopPlaceholder.parentNode.replaceChild(desktopFragment, desktopPlaceholder);
+  }
+
+  if (mobilePlaceholder) {
+    const mobileFragment = document.createDocumentFragment();
+
+    categories.forEach(cat => {
+      const catMembers = teamMembers.filter(m => m.category === cat);
+      if (catMembers.length === 0) return;
+
+      const title = document.createElement('h3');
+      title.className = 'slide-title';
+      title.textContent = categoryNames[cat] || (cat.charAt(0).toUpperCase() + cat.slice(1) + ' Team');
+      mobileFragment.appendChild(title);
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'mobile-team-wrapper';
+
+      const row = document.createElement('div');
+      row.className = 'team-mobile-row';
+
+      catMembers.forEach(member => {
+        const card = createTeamCard(member);
+        row.appendChild(card);
+      });
+      wrapper.appendChild(row);
+
+      const controls = document.createElement('div');
+      controls.className = 'mobile-carousel-controls';
+
+      const prevBtn = document.createElement('button');
+      prevBtn.className = 'mobile-prev';
+      prevBtn.innerHTML = '&#10094;';
+      controls.appendChild(prevBtn);
+
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'mobile-next';
+      nextBtn.innerHTML = '&#10095;';
+      controls.appendChild(nextBtn);
+
+      wrapper.appendChild(controls);
+      mobileFragment.appendChild(wrapper);
+    });
+
+    mobilePlaceholder.parentNode.replaceChild(mobileFragment, mobilePlaceholder);
+  }
+}
+
+// === INTERACTIVE INITIALIZATIONS POST-RENDER ===
+function initializeUIInteractions() {
+  const expandBtn = document.getElementById("expandTimelineBtn");
+  const collapseBtn = document.getElementById("collapseTimelineBtn");
+  const hiddenTimeline = document.querySelector(".more-timeline");
+
+  if (expandBtn && collapseBtn && hiddenTimeline) {
+    expandBtn.addEventListener("click", () => {
+      hiddenTimeline.classList.remove("hidden");
+      expandBtn.classList.add("hidden");
+      collapseBtn.classList.remove("hidden");
+    });
+
+    collapseBtn.addEventListener("click", () => {
+      hiddenTimeline.classList.add("hidden");
+      collapseBtn.classList.add("hidden");
+      expandBtn.classList.remove("hidden");
+      document.getElementById("timeline").scrollIntoView({ behavior: "smooth" });
+    });
+  }
+
+  const timelineItems = document.querySelectorAll('.timeline-item');
+  if (timelineItems.length > 0) {
+    function activateCenterItem() {
+      const viewportCenter = window.innerHeight / 2;
+      let closestItem = null;
+      let minDistance = Infinity;
+
+      timelineItems.forEach(item => {
+        const rect = item.getBoundingClientRect();
+        const itemCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(viewportCenter - itemCenter);
+
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestItem = item;
+        }
+      });
+
+      timelineItems.forEach(item => item.classList.remove('active'));
+      if (closestItem) {
+        closestItem.classList.add('active');
+      }
+    }
+
+    window.addEventListener('scroll', activateCenterItem);
+    activateCenterItem();
+  }
+
+  const teamSlides = document.querySelectorAll(".team-slide");
+  const teamNextBtn = document.getElementById("team-next");
+  const teamPrevBtn = document.getElementById("team-prev");
+  const teamIndicatorsContainer = document.getElementById("team-indicators");
+
+  if (teamSlides.length > 0 && teamIndicatorsContainer) {
+    let teamCurrentSlide = 0;
+    teamIndicatorsContainer.innerHTML = '';
+
+    teamSlides.forEach((_, index) => {
+      const dot = document.createElement("span");
+      dot.classList.add("dot");
+      dot.addEventListener("click", () => {
+        teamCurrentSlide = index;
+        showTeamSlide(teamCurrentSlide);
+      });
+      teamIndicatorsContainer.appendChild(dot);
+    });
+
+    function showTeamSlide(index) {
+      teamSlides.forEach((slide, i) => {
+        slide.classList.toggle("active-slide", i === index);
+      });
+
+      const allDots = teamIndicatorsContainer.querySelectorAll(".dot");
+      allDots.forEach((dot, i) => {
+        dot.classList.toggle("active", i === index);
+      });
+    }
+
+    if (teamNextBtn) {
+      teamNextBtn.addEventListener("click", () => {
+        teamCurrentSlide = (teamCurrentSlide + 1) % teamSlides.length;
+        showTeamSlide(teamCurrentSlide);
+      });
+    }
+
+    if (teamPrevBtn) {
+      teamPrevBtn.addEventListener("click", () => {
+        teamCurrentSlide = (teamCurrentSlide - 1 + teamSlides.length) % teamSlides.length;
+        showTeamSlide(teamCurrentSlide);
+      });
+    }
+
     showTeamSlide(teamCurrentSlide);
-});
+  }
 
-teamPrevBtn.addEventListener("click", () => {
-    teamCurrentSlide =
-        (teamCurrentSlide - 1 + teamSlides.length) % teamSlides.length;
-    showTeamSlide(teamCurrentSlide);
-});
-
-// Initial load
-showTeamSlide(teamCurrentSlide);
-
-
-
-//for mobile version
-
-document.querySelectorAll('.mobile-team-wrapper').forEach(wrapper => {
+  document.querySelectorAll('.mobile-team-wrapper').forEach(wrapper => {
     const row = wrapper.querySelector('.team-mobile-row');
     const nextBtn = wrapper.querySelector('.mobile-next');
     const prevBtn = wrapper.querySelector('.mobile-prev');
-    
-    const cardWidth = row.querySelector('.team-card').offsetWidth + 24; // 24px = gap/margin
+    const firstCard = row ? row.querySelector('.team-card') : null;
 
-    nextBtn.addEventListener('click', () => {
+    if (row && nextBtn && prevBtn && firstCard) {
+      const cardWidth = firstCard.offsetWidth + 24;
+
+      nextBtn.addEventListener('click', () => {
         const maxScroll = row.scrollWidth - row.clientWidth;
-        if (row.scrollLeft + cardWidth >= maxScroll) {
-        // Loop to beginning
-        row.scrollTo({ left: 0, behavior: 'smooth' });
+        if (row.scrollLeft + cardWidth >= maxScroll - 10) {
+          row.scrollTo({ left: 0, behavior: 'smooth' });
         } else {
-        row.scrollBy({ left: cardWidth, behavior: 'smooth' });
+          row.scrollBy({ left: cardWidth, behavior: 'smooth' });
         }
-  });
+      });
 
-    prevBtn.addEventListener('click', () => {
-        if (row.scrollLeft <= 0) {
-        // Loop to end
-        row.scrollTo({ left: row.scrollWidth, behavior: 'smooth' });
+      prevBtn.addEventListener('click', () => {
+        if (row.scrollLeft <= 10) {
+          row.scrollTo({ left: row.scrollWidth, behavior: 'smooth' });
         } else {
-        row.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+          row.scrollBy({ left: -cardWidth, behavior: 'smooth' });
         }
-    });
-});
+      });
+    }
+  });
+}
+
+// === RUNTIME ENTRY POINT ===
+async function initDynamicContent() {
+  try {
+    const [aboutData, timelineData, teamData] = await Promise.all([
+      fetchAPI('/api/public/about').catch(err => {
+        const placeholder = document.getElementById('about-content-placeholder');
+        if (placeholder) placeholder.innerHTML = '<p style="color: #ea4335;">Unable to load About details. Please check connection.</p>';
+        throw err;
+      }),
+      fetchAPI('/api/public/timeline').catch(err => {
+        const placeholder = document.getElementById('timeline-placeholder');
+        if (placeholder) placeholder.innerHTML = '<p style="text-align: center; color: #ea4335; font-family: monospace;">Unable to load journey timeline.</p>';
+        throw err;
+      }),
+      fetchAPI('/api/public/team').catch(err => {
+        const desktopPlaceholder = document.getElementById('team-desktop-placeholder');
+        const mobilePlaceholder = document.getElementById('team-mobile-placeholder');
+        if (desktopPlaceholder) desktopPlaceholder.innerHTML = '<p style="text-align: center; color: #ea4335; padding: 40px; font-family: monospace;">Unable to load team list.</p>';
+        if (mobilePlaceholder) mobilePlaceholder.innerHTML = '<p style="text-align: center; color: #ea4335; padding: 40px; font-family: monospace;">Unable to load team list.</p>';
+        throw err;
+      })
+    ]);
+
+    renderAbout(aboutData);
+    renderTimeline(timelineData);
+    renderTeam(teamData);
+
+    initializeUIInteractions();
+
+  } catch (error) {
+    console.error("Critical error in initializing dynamic content page lifecycles:", error);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", initDynamicContent);
 
 //Back to top Button
 const backToTopBtn = document.getElementById("back-to-top");
